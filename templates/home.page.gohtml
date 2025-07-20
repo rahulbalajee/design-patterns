@@ -1,6 +1,52 @@
 {{template "base" .}}
 
+{{define "css"}}
+
+<style>
+    .header-container {
+        background-image: url("/static/home-page/puppies.jpg");
+        background-size: cover;
+        opacity: 0.9;
+        width: 100vw;
+        height: 85vh;
+        position: relative;
+    }
+
+    @supports (background-image: -webkit-image-set(url("/static/home-page/puppies.web") 1x)) {
+        .header-container {
+            background-image: -webkit-image-set(
+                url("/static/home-page/puppies.webp") 1x
+            );
+        }
+    }
+
+    .header-child {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .header-text {
+        font-family: "Roboto", sans-serif;
+        font-size: 6em;
+        color: white;
+        font-weight: bold;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    }
+</style>
+
+{{end}}
+
 {{define "content"}}
+
+{{/* <img src="/static/home-page/puppies.jpg" alt="puppies" class="img img-fluid" /> */}}
+
+<div class="header-container">
+    <div class="header-child">
+        <h1 class="header-text">Go find a Pet!</h1>
+    </div>
+</div>
 
 <div class="container">
     <div class="row">
