@@ -14,9 +14,9 @@ type templateData struct {
 func (app *application) render(w http.ResponseWriter, t string, td *templateData) {
 	var tmpl *template.Template
 
-	// if we are using template cache, try to get template from map from the receiver
+	// if we are using template cache, try to get template from templateCache from the receiver
 	if app.config.useCache {
-		if templateFromMap, ok := app.templateMap[t]; ok {
+		if templateFromMap, ok := app.templateCache[t]; ok {
 			tmpl = templateFromMap
 			log.Println("serving template from cache")
 		}
@@ -38,7 +38,7 @@ func (app *application) render(w http.ResponseWriter, t string, td *templateData
 	}
 
 	if err := tmpl.ExecuteTemplate(w, t, td); err != nil {
-		log.Println("Error executing template:", err)
+		log.Println("Error executing template: ", err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 }
@@ -56,7 +56,8 @@ func (app *application) buildTemplateFromDisk(t string) (*template.Template, err
 		return nil, err
 	}
 
-	app.templateMap[t] = tmpl
+	// Assign template to the templateCache after parsing
+	app.templateCache[t] = tmpl
 
 	return tmpl, nil
 }

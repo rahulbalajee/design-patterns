@@ -12,8 +12,8 @@ import (
 const port = ":4000"
 
 type application struct {
-	templateMap map[string]*template.Template
-	config      appConfig
+	templateCache map[string]*template.Template
+	config        appConfig
 }
 
 type appConfig struct {
@@ -22,7 +22,7 @@ type appConfig struct {
 
 func main() {
 	app := application{
-		templateMap: map[string]*template.Template{},
+		templateCache: map[string]*template.Template{},
 	}
 
 	flag.BoolVar(&app.config.useCache, "cache", false, "Use template cache")
