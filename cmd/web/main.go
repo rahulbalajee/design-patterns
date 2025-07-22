@@ -1,10 +1,8 @@
 package main
 
 import (
-	"database/sql"
 	"flag"
 	"fmt"
-	"html/template"
 	"log"
 	"net/http"
 	"time"
@@ -12,33 +10,21 @@ import (
 
 const port = ":4000"
 
-type application struct {
-	templateCache map[string]*template.Template
-	config        appConfig
-	DB            *sql.DB
-}
-
-type appConfig struct {
-	useCache bool
-	DSN      string
-}
-
 func main() {
-	app := application{
-		templateCache: map[string]*template.Template{},
-	}
-
-	flag.BoolVar(&app.config.useCache, "cache", false, "Use template cache")
-	flag.StringVar(&app.config.DSN, "dsn", "mariadb:myverysecretpassword@tcp(localhost:3306)/breeders?parseTime=true&tls=false&collation=utf8_unicode_ci&timeout=5s", "DSN")
+	var config appConfig
+	flag.BoolVar(&config.useCache, "cache", false, "Use template cache")
+	flag.StringVar(&config.DSN, "dsn", "mariadb:myverysecretpassword@tcp(localhost:3306)/breeders?parseTime=true&tls=false&collation=utf8_unicode_ci&timeout=5s", "DSN")
 	flag.Parse()
 
-	// get database
-	db, err := initMySQLDB(app.config.DSN)
+	// Initialize database (dependency)
+	db, err := initMySQLDB(config.DSN)
 	if err != nil {
 		log.Panic(err)
 	}
+	defer db.Close()
 
-	app.DB = db
+	// Use constructor injection instead of field assignment
+	app := NewApplication(db, config) // ← Better dependency injection
 
 	srv := &http.Server{
 		Addr:              port,
@@ -55,5 +41,4 @@ func main() {
 	if err != nil {
 		log.Panic(err)
 	}
-
 }
