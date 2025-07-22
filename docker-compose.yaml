@@ -14,12 +14,6 @@ services:
       - ./db-data/mariadb:/var/lib/mysql
       - ./sql/breeders_mysql.sql:/docker-entrypoint-initdb.d/create_tables.sql
 
-  redis:
-    image: 'redis:latest'
-    ports:
-      - "6379:6379"
-    restart: unless-stopped
-
 #  postgres:
 #    image: 'postgres:14'
 #    restart: unless-stopped
