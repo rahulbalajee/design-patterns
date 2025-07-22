@@ -1,0 +1,32 @@
+version: '3'
+services:
+  mariadb:
+    image: 'mariadb:10'
+    ports:
+      - "3306:3306"
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: breeders
+      MYSQL_USER: mariadb
+      MYSQL_PASSWORD: myverysecretpassword
+    volumes:
+      - ./db-data/mariadb:/var/lib/mysql
+      - ./sql/breeders_mysql.sql:/docker-entrypoint-initdb.d/create_tables.sql
+
+#  postgres:
+#    image: 'postgres:14'
+#    restart: unless-stopped
+#    environment:
+#      POSTGRES_USER: postgres
+#      POSTGRES_PASSWORD: myverysecretpassword
+#      POSTGRES_DB: breeders
+#    ports:
+#      - "5432:5432"
+#    volumes:
+#      - ./db-data/postgres:/var/lib/postgresql/data
+#      - ./sql/postgres.sql:/docker-entrypoint-initdb.d/create_tables.sql
+#    logging:
+#      options:
+#        max-size: "10m"
+#        max-file: "3"
