@@ -48,3 +48,13 @@ func (app *application) CreateCatFromAbstractFactory(w http.ResponseWriter, r *h
 
 	app.writeJSON(w, http.StatusOK, cat)
 }
+
+func (app *application) GetAllDogBreedsJSON(w http.ResponseWriter, r *http.Request) {
+	dogBreeds, err := app.Models.DogBreed.All()
+	if err != nil {
+		app.errorJSON(w, err, http.StatusBadRequest)
+		return
+	}
+
+	app.writeJSON(w, http.StatusOK, dogBreeds)
+}
