@@ -11,7 +11,6 @@ import (
 type application struct {
 	templateCache map[string]*template.Template
 	config        appConfig
-	DB            *sql.DB
 	Models        models.Models
 }
 
@@ -24,7 +23,6 @@ type appConfig struct {
 // NewApplication is a constructor that uses dependency injection
 func NewApplication(db *sql.DB, config appConfig) *application {
 	return &application{
-		DB:            db,
 		config:        config,
 		templateCache: make(map[string]*template.Template),
 		Models:        *models.New(db),
