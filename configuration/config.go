@@ -14,9 +14,19 @@ type Application struct {
 var instance *Application
 var once sync.Once
 var db *sql.DB
+var initialized bool
+var initMutex sync.Mutex
 
 func New(pool *sql.DB) *Application {
-	db = pool
+	initMutex.Lock()
+	defer initMutex.Unlock()
+
+	// Only set db on first call - prevents accidental overwrites!
+	if !initialized && pool != nil {
+		db = pool
+		initialized = true
+	}
+
 	return GetInstance()
 }
 
