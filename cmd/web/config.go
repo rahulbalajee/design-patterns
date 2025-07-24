@@ -4,14 +4,14 @@ import (
 	"database/sql"
 	"html/template"
 
-	"github.com/rahulbalajee/design-patterns/models"
+	"github.com/rahulbalajee/design-patterns/configuration"
 )
 
 // application holds the application-wide dependencies
 type application struct {
 	templateCache map[string]*template.Template
 	config        appConfig
-	Models        models.Models
+	App           *configuration.Application
 }
 
 // appConfig holds configuration settings
@@ -25,6 +25,6 @@ func NewApplication(db *sql.DB, config appConfig) *application {
 	return &application{
 		config:        config,
 		templateCache: make(map[string]*template.Template),
-		Models:        *models.New(db),
+		App:           configuration.New(db),
 	}
 }

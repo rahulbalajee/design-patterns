@@ -50,7 +50,7 @@ func (app *application) CreateCatFromAbstractFactory(w http.ResponseWriter, r *h
 }
 
 func (app *application) GetAllDogBreedsJSON(w http.ResponseWriter, r *http.Request) {
-	dogBreeds, err := app.Models.DogBreed.All()
+	dogBreeds, err := app.App.Models.DogBreed.All()
 	if err != nil {
 		app.errorJSON(w, err, http.StatusBadRequest)
 		return
