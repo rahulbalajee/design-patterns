@@ -72,6 +72,10 @@ func (p *Pet) SetAgeEstimated(s bool) *Pet {
 	return p
 }
 
+func NewPetBuilder() PetInterface {
+	return &Pet{}
+}
+
 func (p *Pet) Build() (*Pet, error) {
 	if p.MinWeight > p.MaxWeight {
 		return nil, errors.New("min weight must be less than max weight")

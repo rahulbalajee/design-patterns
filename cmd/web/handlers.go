@@ -58,3 +58,39 @@ func (app *application) GetAllDogBreedsJSON(w http.ResponseWriter, r *http.Reque
 
 	app.writeJSON(w, http.StatusOK, dogBreeds)
 }
+
+func (app *application) CreateDogWithBuilder(w http.ResponseWriter, r *http.Request) {
+	p, err := pets.NewPetBuilder().
+		SetSpecies("dog").
+		SetBreed("mixed breed").
+		SetWeight(15).
+		SetDescription("some desc").
+		SetColor("Black").
+		SetAge(3).
+		SetAgeEstimated(true).
+		Build()
+
+	if err != nil {
+		app.errorJSON(w, err, http.StatusBadRequest)
+	}
+
+	app.writeJSON(w, http.StatusOK, p)
+}
+
+func (app *application) CreateCatWithBuilder(w http.ResponseWriter, r *http.Request) {
+	p, err := pets.NewPetBuilder().
+		SetSpecies("cat").
+		SetBreed("felis silverstris breed").
+		SetWeight(15).
+		SetDescription("some desc").
+		SetColor("Black").
+		SetAge(3).
+		SetAgeEstimated(true).
+		Build()
+
+	if err != nil {
+		app.errorJSON(w, err, http.StatusBadRequest)
+	}
+
+	app.writeJSON(w, http.StatusOK, p)
+}
