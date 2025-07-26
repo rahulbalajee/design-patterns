@@ -4,11 +4,13 @@ import (
 	"database/sql"
 	"sync"
 
+	"github.com/rahulbalajee/design-patterns/adapters"
 	"github.com/rahulbalajee/design-patterns/models"
 )
 
 type Application struct {
-	Models *models.Models
+	Models     *models.Models
+	CatService *adapters.RemoteService
 }
 
 var instance *Application
@@ -16,14 +18,16 @@ var once sync.Once
 var db *sql.DB
 var initialized bool
 var initMutex sync.Mutex
+var catService *adapters.RemoteService
 
-func New(pool *sql.DB) *Application {
+func New(pool *sql.DB, cs *adapters.RemoteService) *Application {
 	initMutex.Lock()
 	defer initMutex.Unlock()
 
 	// Only set db on first call - prevents accidental overwrites!
 	if !initialized && pool != nil {
 		db = pool
+		catService = cs
 		initialized = true
 	}
 
@@ -33,7 +37,8 @@ func New(pool *sql.DB) *Application {
 func GetInstance() *Application {
 	once.Do(func() {
 		instance = &Application{
-			Models: models.New(db),
+			Models:     models.New(db),
+			CatService: catService,
 		}
 	})
 	return instance

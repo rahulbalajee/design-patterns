@@ -96,7 +96,7 @@ func (app *application) CreateCatWithBuilder(w http.ResponseWriter, r *http.Requ
 }
 
 func (app *application) GetAllCatBreeds(w http.ResponseWriter, r *http.Request) {
-	catBreeds, err := app.catService.GetAllBreeds()
+	catBreeds, err := app.App.CatService.GetAllBreeds()
 	if err != nil {
 		app.errorJSON(w, err, http.StatusBadRequest)
 	}

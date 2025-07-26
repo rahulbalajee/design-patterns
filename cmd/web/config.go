@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"html/template"
 
+	"github.com/rahulbalajee/design-patterns/adapters"
 	"github.com/rahulbalajee/design-patterns/configuration"
 )
 
@@ -12,7 +13,6 @@ type application struct {
 	templateCache map[string]*template.Template
 	config        appConfig
 	App           *configuration.Application
-	catService    *RemoteService
 }
 
 // appConfig holds configuration settings
@@ -26,7 +26,6 @@ func NewApplication(db *sql.DB, config appConfig) *application {
 	return &application{
 		config:        config,
 		templateCache: make(map[string]*template.Template),
-		App:           configuration.New(db),
-		catService:    &RemoteService{Remote: &XMLBackend{}},
+		App:           configuration.New(db, &adapters.RemoteService{Remote: &adapters.XMLBackend{}}),
 	}
 }
