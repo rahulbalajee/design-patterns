@@ -27,6 +27,6 @@ func NewApplication(db *sql.DB, config appConfig) *application {
 		config:        config,
 		templateCache: make(map[string]*template.Template),
 		App:           configuration.New(db),
-		catService:    &RemoteService{Remote: &JSONBackend{}},
+		catService:    &RemoteService{Remote: &XMLBackend{}},
 	}
 }
