@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"net/url"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/rahulbalajee/design-patterns/pets"
@@ -106,10 +107,18 @@ func (app *application) GetAllCatBreeds(w http.ResponseWriter, r *http.Request) 
 
 func (app *application) AnimalFromAbstractFactory(w http.ResponseWriter, r *http.Request) {
 	// Get species from URL itself
+	species := chi.URLParam(r, "species")
 
 	// Get breed from the URL
+	b := chi.URLParam(r, "breed")
+	breed, _ := url.QueryUnescape(b)
 
 	// Create a pet from Abstract Factory
+	pet, err := pets.NewPetWithBreedFromAbstractFactory(species, breed)
+	if err != nil {
+		app.errorJSON(w, err, http.StatusBadRequest)
+	}
 
 	// Write the result as JSON
+	app.writeJSON(w, http.StatusOK, pet)
 }
