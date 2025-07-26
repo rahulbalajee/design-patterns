@@ -94,3 +94,12 @@ func (app *application) CreateCatWithBuilder(w http.ResponseWriter, r *http.Requ
 
 	app.writeJSON(w, http.StatusOK, p)
 }
+
+func (app *application) GetAllCatBreeds(w http.ResponseWriter, r *http.Request) {
+	catBreeds, err := app.catService.GetAllBreeds()
+	if err != nil {
+		app.errorJSON(w, err, http.StatusBadRequest)
+	}
+
+	app.writeJSON(w, http.StatusOK, catBreeds)
+}

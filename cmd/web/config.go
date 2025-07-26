@@ -12,6 +12,7 @@ type application struct {
 	templateCache map[string]*template.Template
 	config        appConfig
 	App           *configuration.Application
+	catService    *RemoteService
 }
 
 // appConfig holds configuration settings
@@ -26,5 +27,6 @@ func NewApplication(db *sql.DB, config appConfig) *application {
 		config:        config,
 		templateCache: make(map[string]*template.Template),
 		App:           configuration.New(db),
+		catService:    &RemoteService{Remote: &JSONBackend{}},
 	}
 }
