@@ -17,6 +17,10 @@ func (app *application) routes() http.Handler {
 	fileServer := http.FileServer(http.Dir("./static/"))
 	mux.Handle("/static/*", http.StripPrefix("/static", fileServer))
 
+	mux.Get("/favicon.ico", func(w http.ResponseWriter, r *http.Request) {
+		http.NotFound(w, r)
+	})
+
 	// Display our test page
 	mux.Get("/test-patterns", app.TestPatterns)
 
