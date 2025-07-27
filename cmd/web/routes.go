@@ -6,6 +6,7 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	"github.com/rahulbalajee/design-patterns/ui"
 )
 
 func (app *application) routes() http.Handler {
@@ -14,8 +15,8 @@ func (app *application) routes() http.Handler {
 	mux.Use(middleware.Recoverer)
 	mux.Use(middleware.Timeout(60 * time.Second))
 
-	fileServer := http.FileServer(http.Dir("./static/"))
-	mux.Handle("/static/*", http.StripPrefix("/static", fileServer))
+	// Chi router syntax for embedded files - no prefix stripping needed!
+	mux.Handle("/static/*", http.FileServerFS(ui.Files))
 
 	mux.Get("/favicon.ico", func(w http.ResponseWriter, r *http.Request) {
 		http.NotFound(w, r)

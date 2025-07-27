@@ -39,8 +39,10 @@ func (app *application) writeJSON(w http.ResponseWriter, status int, data any, h
 	}
 
 	if len(headers) > 0 {
-		for key, value := range headers[0] {
-			w.Header()[key] = value
+		for _, headerSet := range headers {
+			for key, value := range headerSet {
+				w.Header()[key] = value
+			}
 		}
 	}
 
@@ -54,6 +56,9 @@ func (app *application) writeJSON(w http.ResponseWriter, status int, data any, h
 	return nil
 }
 
+// Should clarify that only first status is used:
+// errorJSON sends JSON error response.
+// status is optional - if provided, only the first value is used.
 func (app *application) errorJSON(w http.ResponseWriter, err error, status ...int) error {
 	statusCode := http.StatusBadRequest
 

@@ -4,7 +4,7 @@
 
 <style>
     .header-container {
-        background-image: url("/static/home-page/puppies.jpg");
+        background-image: url("static/home-page/puppies.jpg");
         background-size: cover;
         opacity: 0.9;
         width: 100vw;
@@ -12,10 +12,10 @@
         position: relative;
     }
 
-    @supports (background-image: -webkit-image-set(url("/static/home-page/puppies.web") 1x)) {
+    @supports (background-image: -webkit-image-set(url("ui/static/home-page/puppies.web") 1x)) {
         .header-container {
             background-image: -webkit-image-set(
-                url("/static/home-page/puppies.webp") 1x
+                url("static/home-page/puppies.webp") 1x
             );
         }
     }

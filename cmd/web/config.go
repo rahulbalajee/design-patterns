@@ -24,8 +24,8 @@ type appConfig struct {
 // NewApplication is a constructor that uses dependency injection
 func NewApplication(db *sql.DB, config appConfig) *application {
 	return &application{
-		config:        config,
 		templateCache: make(map[string]*template.Template),
+		config:        config,
 		App:           configuration.New(db, &adapters.RemoteService{Remote: &adapters.XMLBackend{}}),
 	}
 }

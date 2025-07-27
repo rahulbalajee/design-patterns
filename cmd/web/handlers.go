@@ -73,6 +73,7 @@ func (app *application) CreateDogWithBuilder(w http.ResponseWriter, r *http.Requ
 
 	if err != nil {
 		app.errorJSON(w, err, http.StatusBadRequest)
+		return
 	}
 
 	app.writeJSON(w, http.StatusOK, p)
@@ -91,6 +92,7 @@ func (app *application) CreateCatWithBuilder(w http.ResponseWriter, r *http.Requ
 
 	if err != nil {
 		app.errorJSON(w, err, http.StatusBadRequest)
+		return
 	}
 
 	app.writeJSON(w, http.StatusOK, p)
@@ -100,6 +102,7 @@ func (app *application) GetAllCatBreeds(w http.ResponseWriter, r *http.Request) 
 	catBreeds, err := app.App.CatService.GetAllBreeds()
 	if err != nil {
 		app.errorJSON(w, err, http.StatusBadRequest)
+		return
 	}
 
 	app.writeJSON(w, http.StatusOK, catBreeds)
@@ -117,6 +120,7 @@ func (app *application) AnimalFromAbstractFactory(w http.ResponseWriter, r *http
 	pet, err := pets.NewPetWithBreedFromAbstractFactory(species, breed)
 	if err != nil {
 		app.errorJSON(w, err, http.StatusBadRequest)
+		return
 	}
 
 	// Write the result as JSON

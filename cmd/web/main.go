@@ -13,7 +13,7 @@ const port = ":4000"
 func main() {
 	var config appConfig
 	flag.BoolVar(&config.useCache, "cache", false, "Use template cache")
-	flag.StringVar(&config.DSN, "dsn", "mariadb:myverysecretpassword@tcp(localhost:3306)/breeders?parseTime=true&tls=false&collation=utf8_unicode_ci&timeout=5s", "DSN")
+	flag.StringVar(&config.DSN, "dsn", "mariadb:myverysecretpassword@tcp(localhost:3306)/breeders?parseTime=true&tls=false&collation=utf8_unicode_ci&timeout=5s", "DSN for database")
 	flag.Parse()
 
 	// Initialize database (dependency)
@@ -35,7 +35,7 @@ func main() {
 		WriteTimeout:      30 * time.Second,
 	}
 
-	fmt.Println("Starting web server on port", port)
+	fmt.Println("Starting web server on port:", port)
 
 	err = srv.ListenAndServe()
 	if err != nil {

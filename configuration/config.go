@@ -25,7 +25,7 @@ func New(pool *sql.DB, cs *adapters.RemoteService) *Application {
 	defer initMutex.Unlock()
 
 	// Only set db on first call - prevents accidental overwrites!
-	if !initialized && pool != nil {
+	if pool != nil && cs != nil && !initialized {
 		db = pool
 		catService = cs
 		initialized = true
