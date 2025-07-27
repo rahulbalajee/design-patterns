@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
 	"errors"
 	"io"
@@ -33,7 +34,8 @@ func (app *application) readJSON(w http.ResponseWriter, r *http.Request, data an
 }
 
 func (app *application) writeJSON(w http.ResponseWriter, status int, data any, headers ...http.Header) error {
-	out, err := json.Marshal(data)
+	var buf bytes.Buffer
+	err := json.NewEncoder(&buf).Encode(data)
 	if err != nil {
 		return err
 	}
@@ -48,10 +50,7 @@ func (app *application) writeJSON(w http.ResponseWriter, status int, data any, h
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(status)
-	_, err = w.Write(out)
-	if err != nil {
-		return err
-	}
+	buf.WriteTo(w)
 
 	return nil
 }
