@@ -22,6 +22,8 @@ func (app *application) routes() http.Handler {
 		http.NotFound(w, r)
 	})
 
+	mux.Get("/dog-of-month", app.DogOfMonth)
+
 	// Display our test page
 	mux.Get("/test-patterns", app.TestPatterns)
 
