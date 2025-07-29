@@ -6,6 +6,7 @@ import (
 
 	"github.com/rahulbalajee/design-patterns/adapters"
 	"github.com/rahulbalajee/design-patterns/configuration"
+	"github.com/rahulbalajee/design-patterns/streamer"
 )
 
 // application holds the application-wide dependencies
@@ -13,6 +14,7 @@ type application struct {
 	templateCache map[string]*template.Template
 	config        appConfig
 	App           *configuration.Application
+	videoQueue    chan streamer.VideoProcessingJob
 }
 
 // appConfig holds configuration settings
@@ -27,5 +29,6 @@ func NewApplication(db *sql.DB, config appConfig) *application {
 		templateCache: make(map[string]*template.Template),
 		config:        config,
 		App:           configuration.New(db, &adapters.RemoteService{Remote: &adapters.XMLBackend{}}),
+		videoQueue:    videoQueue,
 	}
 }
