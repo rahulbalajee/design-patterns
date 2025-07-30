@@ -31,6 +31,7 @@ func main() {
 
 	// Use constructor injection instead of field assignment
 	app := NewApplication(db, config) // ← Better dependency injection
+
 	wp := streamer.New(videoQueue, numWorkers)
 	wp.Run()
 

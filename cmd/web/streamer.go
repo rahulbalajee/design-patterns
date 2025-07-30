@@ -8,9 +8,8 @@ const numWorkers = 4
 var videoQueue chan streamer.VideoProcessingJob
 
 // initStreamer initializes the video processing queue
-func initStreamer() chan streamer.VideoProcessingJob {
+func initStreamer() {
 	videoQueue = make(chan streamer.VideoProcessingJob, numWorkers)
-	return videoQueue
 }
 
 // closeStreamer properly closes the video queue
