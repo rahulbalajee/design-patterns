@@ -6,8 +6,6 @@ import (
 	"log"
 	"net/http"
 	"time"
-
-	"github.com/rahulbalajee/design-patterns/streamer"
 )
 
 const port = ":4000"
@@ -32,8 +30,7 @@ func main() {
 	// Use constructor injection instead of field assignment
 	app := NewApplication(db, config) // ← Better dependency injection
 
-	wp := streamer.New(videoQueue, numWorkers)
-	wp.Run()
+	initDispatcher()
 
 	srv := &http.Server{
 		Addr:              port,

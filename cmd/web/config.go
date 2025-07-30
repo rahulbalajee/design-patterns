@@ -28,7 +28,7 @@ func NewApplication(db *sql.DB, config appConfig) *application {
 	return &application{
 		templateCache: make(map[string]*template.Template),
 		config:        config,
-		App:           configuration.New(db, &adapters.RemoteService{Remote: &adapters.XMLBackend{}}),
+		App:           configuration.New(db, &adapters.RemoteService{Remote: &adapters.JSONBackend{}}),
 		videoQueue:    videoQueue,
 	}
 }

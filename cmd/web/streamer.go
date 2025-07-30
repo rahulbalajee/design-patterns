@@ -18,3 +18,8 @@ func closeStreamer() {
 		close(videoQueue)
 	}
 }
+
+func initDispatcher() {
+	wp := streamer.New(videoQueue, numWorkers)
+	wp.Run()
+}
